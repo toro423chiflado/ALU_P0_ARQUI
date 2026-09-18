@@ -1,10 +1,17 @@
-// Modulo top para la placa Basys3 - Pregunta 5 (shift + ALU con xor)
-// sw[4:0]   -> A
-// sw[9:5]   -> B
-// sw[12:10] -> ALUControl (3 bits: 000 add,001 sub,010 and,011 or,100 xor)
-// sw[14:13] -> bshift
-// led[4:0]  -> Result
-// led[8:5]  -> ALUFlags {N,Z,C,V}
+`timescale 1ns / 1ps
+// ============================================================================
+// Pregunta 5 - Top para la placa Basys3 (Shift + ALU con XOR)
+//
+//   Entradas (switches)             Salidas (LEDs)
+//   sw[4:0]   -> A                  led[4:0]   -> Result
+//   sw[9:5]   -> B                  led[15:12] -> ALUFlags {N,Z,C,V}
+//   sw[12:10] -> ALUControl         led[11:5]  -> apagados
+//   sw[14:13] -> bshift
+//   sw[15]    -> sin uso
+//
+//   ALUControl: 000 add | 001 sub | 010 and | 011 or | 100 xor
+//   led15 = N, led14 = Z, led13 = C, led12 = V
+// ============================================================================
 module basys3_top(
     input  [15:0] sw,
     output [15:0] led
@@ -27,8 +34,8 @@ module basys3_top(
         .ALUFlags(ALUFlags)
     );
 
-    assign led[4:0]  = Result;
-    assign led[8:5]  = ALUFlags;
-    assign led[15:9] = 7'b0;
+    assign led[4:0]   = Result;
+    assign led[11:5]  = 7'b0;
+    assign led[15:12] = ALUFlags;
 
 endmodule
